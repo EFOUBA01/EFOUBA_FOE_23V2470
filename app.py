@@ -76,7 +76,7 @@ def collecter_donnees_sante(url_api):
 st.title("🏥 SantéMap Yaoundé : Recensement & Analyse Descriptive")
 st.markdown("Cette application a été conçue pour être robuste, fiable et garantir son fonctionnement pour le TP INF232.")
 
-st.markdown("### 1. Collecte des Données en Ligne (Version Robuste)
+st.markdown("### 1. Collecte des Données en Ligne (Version Robuste))
             
 if st.button("Lancer le Recensement de Yaoundé"):
     with st.spinner("Conception en cours... Collecte des données de santé..."):
