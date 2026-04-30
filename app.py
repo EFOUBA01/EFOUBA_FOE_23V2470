@@ -19,7 +19,6 @@ st.set_page_config(
 )
 
 # --- 2. DÉFINITIONS ET PLAN DE SECOURS (FIABILITÉ) ---
-# Ton URL d'origine (nous savons qu'elle est peu fiable pour cette utilisation)
 URL_DONNEES = "http://overpass-api.de/api/interpreter"
 
 # Définition du fichier de secours pour la robustesse du TP
@@ -64,15 +63,12 @@ def collecter_donnees_sante(url_api):
             df = pd.DataFrame(data['elements'])
             return df
         else:
-            # Si les données ne sont pas au bon format, on renvoie un DataFrame vide
             return pd.DataFrame()
 
     except requests.exceptions.RequestException as e:
-        # C'est l'erreur que tu as eue ! Le plan B pour la robustesse !
         st.error(f"❌ Conception échouée ! Impossible de se connecter à la source : {e}")
         return pd.DataFrame()
     except Exception as e:
-        # Autre erreur inconnue (ex: format JSON corrompu)
         st.error(f"❌ Conception échouée ! Erreur lors du traitement des données : {e}")
         return pd.DataFrame()
 
@@ -80,9 +76,8 @@ def collecter_donnees_sante(url_api):
 st.title("🏥 SantéMap Yaoundé : Recensement & Analyse Descriptive")
 st.markdown("Cette application a été conçue pour être robuste, fiable et garantir son fonctionnement pour le TP INF232.")
 
-st.markdown("### 1. Collecte des Données en Ligne (Version Robuste)")
-
-# Le bloc de collecte est entièrement corrigé pour être fiable
+st.markdown("### 1. Collecte des Données en Ligne (Version Robuste)
+            
 if st.button("Lancer le Recensement de Yaoundé"):
     with st.spinner("Conception en cours... Collecte des données de santé..."):
         
@@ -90,20 +85,18 @@ if st.button("Lancer le Recensement de Yaoundé"):
         df_sante = collecter_donnees_sante(URL_DONNEES)
         
         if not df_sante.empty:
-            # Victoire ! Les données sont collectées en ligne
+        
             st.success(f"✅ Conception réussie ! Données de santé collectées en ligne pour Yaoundé.")
             st.session_state['data'] = df_sante
             st.session_state['data_source'] = "En Ligne (Overpass API)"
         
         else:
-            # C'est l'erreur que tu as eue ! Le Plan B pour la fiabilité !
-            # Nous sommes robustes, nous utilisons le fichier de secours local
+            
             st.warning("⚠️ Source de données vide ou inaccessible. Utilisation des données de secours pour la fiabilité.")
             st.session_state['data'] = pd.read_csv(FICHIER_SECOURS)
             st.session_state['data_source'] = "De Secours (Fichier CSV local - Robuste)"
 
 # --- 5. AFFICHAGE DES DONNÉES (Si collectées) ---
-# C'est la phase magique où tu vois enfin tes données
 if 'data' in st.session_state:
     st.markdown(f"---")
     st.markdown(f"### 2. Aperçu des Données (Source : {st.session_state['data_source']})")
@@ -115,18 +108,11 @@ if 'data' in st.session_state:
     
     st.success(f"✅ Conception réussie ! Ton atelier de travail est robuste et fiable. Tu peux passer à l'analyse descriptive.")
 
-# --- FIN DU FICHIER APP.PY ---
-# ==============================================================================
-# TP INF232 - SantéMap Yaoundé : Analyse Descriptive (VERSION ROBUSTE)
-# ==============================================================================
-# Ce code a été conçu pour être robuste et fiable, même avec des données partielles.
-# Il utilise les données de secours pour garantir son fonctionnement.
 # ==============================================================================
 
 import plotly.express as px
 
 # --- 6. CONCEPTION DE L'ANALYSE DESCRIPTIVE ---
-# C'est la phase magique où tu analyses tes données
 if 'data' in st.session_state:
     st.markdown(f"---")
     st.title("📊 SantéMap Yaoundé : Analyse Descriptive")
